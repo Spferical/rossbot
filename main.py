@@ -81,7 +81,7 @@ def main():
     image_data = requests.get(output_url).content
     with open("tmp_image", "wb") as f:
         f.write(image_data)
-    output_subreddit = reddit.subreddit("testingground4bots")
+    output_subreddit = reddit.subreddit("u_imaginary_ross_bot")
     submission = output_subreddit.submit_image("happy little test",
                                                "./tmp_image")
     submission.reply("Original submission: [{}]({}) by /u/{}".format(
