@@ -50,14 +50,6 @@ def save_history(history):
         json.dump(history, f)
 
 
-def get_new_image_url(reddit, history):
-    landscapes_subreddit = reddit.subreddit("ImaginaryLandscapes")
-    for submission in landscapes_subreddit.hot(limit=10):
-        url = submission.url
-        if url not in history and re.match(IMAGE_URL_REGEX, url):
-            return url
-
-
 def main():
     history = load_history()
     reddit = praw.Reddit(client_id='fEMi2K9P4x4Lcg',
@@ -66,16 +58,37 @@ def main():
                          password='XBLjstJfC999z3hcqDRCHf59UYngRWun',
                          user_agent='linux:botross:v0.1 (by /u/mpfei)')
     print("logged in as", reddit.user.me())
-    new_url = get_new_image_url(reddit, history)
-    print("got image url:", new_url)
-    deepapi_output = do_style(random.choice(ROSS_URLS), new_url)
-    print(deepapi_output)
+    landscape_subreddit = reddit.subreddit("ImaginaryLandscapes")
+    landscape_submissions = landscape_subreddit.hot(limit=10)
+    for landscape_submission in landscape_submissions:
+        new_url = landscape_submission.url
+        if new_url in history or not re.match(IMAGE_URL_REGEX, new_url):
+            continue
+        print("new image url:", new_url)
+        deepapi_output = do_style(random.choice(ROSS_URLS), new_url)
+        print(deepapi_output)
+        if 'err' in deepapi_output:
+            # welp, deepapi probably didn't like the last image
+            # blacklist it and try again
+            print(deepapi_output['err'])
+            history.append(new_url)
+        else:
+            break
+    else:
+        print("none of the top 10 hot posts worked out")
+        return
     output_url = deepapi_output['output_url']
     image_data = requests.get(output_url).content
     with open("tmp_image", "wb") as f:
         f.write(image_data)
     output_subreddit = reddit.subreddit("testingground4bots")
-    output_subreddit.submit_image("happy little test", "./tmp_image")
+    submission = output_subreddit.submit_image("happy little test",
+                                               "./tmp_image")
+    submission.reply("Original submission: [{}]({}) by /u/{}".format(
+                     landscape_submission.title,
+                     landscape_submission.shortlink,
+                     landscape_submission.author.name))
+    history.append(new_url)
     save_history(history)
 
 
