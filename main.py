@@ -56,7 +56,7 @@ def main():
                          client_secret=REDDIT_CLIENT_SECRET,
                          username='imaginary_ross_bot',
                          password='XBLjstJfC999z3hcqDRCHf59UYngRWun',
-                         user_agent='linux:botross:v0.1 (by /u/mpfei)')
+                         user_agent='linux:botross:v0.1 (by /u/spferical)')
     print("logged in as", reddit.user.me())
     landscape_subreddit = reddit.subreddit("ImaginaryLandscapes")
     landscape_submissions = landscape_subreddit.hot(limit=10)
