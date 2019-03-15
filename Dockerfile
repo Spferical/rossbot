@@ -12,4 +12,4 @@ RUN touch /var/log/cron.log
 
 ENV KAIROSDB_URL http://localhost:8080
 
-CMD env > /root/.profile && tail -f /var/log/cron.log & crond -l 2 -f
+CMD env | sed 's/^\(.*\)$/export \1/g' > /root/.profile && tail -f /var/log/cron.log & crond -l 2 -f
