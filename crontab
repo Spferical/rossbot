@@ -1,3 +1,3 @@
 #!/bin/sh
 
-0 * * * * export $(cat /root/.profile) && echo "$(date) Deep styling..." >> /var/log/cron.log 2>&1 && python3 /usr/src/app/main.py >> /var/log/cron.log 2>&1
+0 * * * * . /root/.profile && echo "$(date) Deep styling..." >> /var/log/cron.log 2>&1 && python3 /usr/src/app/main.py >> /var/log/cron.log 2>&1
