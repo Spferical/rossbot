@@ -10,6 +10,8 @@ COPY crontab /var/spool/cron/crontabs/root
 
 RUN touch /var/log/cron.log
 
-ENV KAIROSDB_URL http://localhost:8080
+ENV ROSSBOT_DATA_DIR /var/rossbot
+
+VOLUME /var/rossbot/
 
 CMD env | sed 's/^\(.*\)$/export \1/g' > /root/.profile && tail -f /var/log/cron.log & crond -l 2 -f

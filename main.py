@@ -9,7 +9,9 @@ import random
 
 DEEPAPI_API_KEY = os.environ["DEEPAPI_API_KEY"]
 REDDIT_CLIENT_SECRET = os.environ["REDDIT_CLIENT_SECRET"]
+DATA_DIR = os.environ.get("ROSSBOT_DATA_DIR", ".")
 HISTORY_FILENAME = "history.json"
+HISTORY_PATH = os.path.join(DATA_DIR, HISTORY_FILENAME)
 IMAGE_URL_REGEX = r"(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)"
 ROSS_URLS = [
     "https://i.imgur.com/GSJk3U0.png",
@@ -39,14 +41,14 @@ def do_style(style_url, image_url):
 
 def load_history():
     try:
-        with open(HISTORY_FILENAME, "r") as f:
+        with open(HISTORY_PATH, "r") as f:
             return json.load(f)
     except FileNotFoundError:
         return []
 
 
 def save_history(history):
-    with open(HISTORY_FILENAME, "w") as f:
+    with open(HISTORY_PATH, "w") as f:
         json.dump(history, f)
 
 
@@ -79,11 +81,12 @@ def main():
         return
     output_url = deepapi_output['output_url']
     image_data = requests.get(output_url).content
-    with open("tmp_image", "wb") as f:
+    tmp_image_path = os.path.join(DATA_DIR, "tmp_image")
+    with open(tmp_image_path, "wb") as f:
         f.write(image_data)
     output_subreddit = reddit.subreddit("u_imaginary_ross_bot")
     submission = output_subreddit.submit_image("happy little test",
-                                               "./tmp_image")
+                                               tmp_image_path)
     submission.reply("Original submission: [{}]({}) by /u/{}".format(
                      landscape_submission.title,
                      landscape_submission.shortlink,
