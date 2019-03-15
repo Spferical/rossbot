@@ -62,7 +62,7 @@ def main():
                          user_agent='linux:botross:v0.1 (by /u/spferical)')
     print("logged in as", reddit.user.me())
     landscape_subreddit = reddit.subreddit("ImaginaryLandscapes")
-    landscape_submissions = landscape_subreddit.hot(limit=10)
+    landscape_submissions = landscape_subreddit.hot(limit=25)
     for landscape_submission in landscape_submissions:
         new_url = landscape_submission.url
         if new_url in history or not re.match(IMAGE_URL_REGEX, new_url):
