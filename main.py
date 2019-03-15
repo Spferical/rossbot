@@ -9,6 +9,7 @@ import random
 
 DEEPAPI_API_KEY = os.environ["DEEPAPI_API_KEY"]
 REDDIT_CLIENT_SECRET = os.environ["REDDIT_CLIENT_SECRET"]
+REDDIT_PASSWORD = os.environ["REDDIT_PASSWORD"]
 DATA_DIR = os.environ.get("ROSSBOT_DATA_DIR", ".")
 HISTORY_FILENAME = "history.json"
 HISTORY_PATH = os.path.join(DATA_DIR, HISTORY_FILENAME)
@@ -57,7 +58,7 @@ def main():
     reddit = praw.Reddit(client_id='fEMi2K9P4x4Lcg',
                          client_secret=REDDIT_CLIENT_SECRET,
                          username='imaginary_ross_bot',
-                         password='XBLjstJfC999z3hcqDRCHf59UYngRWun',
+                         password=REDDIT_PASSWORD,
                          user_agent='linux:botross:v0.1 (by /u/spferical)')
     print("logged in as", reddit.user.me())
     landscape_subreddit = reddit.subreddit("ImaginaryLandscapes")
