@@ -14,4 +14,4 @@ ENV ROSSBOT_DATA_DIR /var/rossbot
 
 VOLUME /var/rossbot/
 
-CMD env | sed 's/^\(.*\)$/export \1/g' > /root/.profile && tail -f /var/log/cron.log & crond -l 2 -f
+CMD env | grep -v "affinity:container" | sed 's/^\(.*\)$/export \1/g' > /root/.profile && tail -f /var/log/cron.log & crond -l 2 -f
