@@ -1,2 +1,2 @@
-praw==6.1.1
 requests==2.21.0
+-e git://github.com/praw-dev/praw.git@dba778ac1fea7cc6f5efd40108d04bd9b0e4c3cc#egg=praw
