@@ -87,7 +87,7 @@ def main():
         f.write(image_data)
     output_subreddit = reddit.subreddit("u_imaginary_ross_bot")
     submission = output_subreddit.submit_image("happy little test",
-                                               tmp_image_path)
+                                               tmp_image_path, timeout=120)
     submission.reply("Original submission: [{}]({}) by /u/{}".format(
                      landscape_submission.title,
                      landscape_submission.shortlink,
