@@ -88,10 +88,9 @@ def main():
     output_subreddit = reddit.subreddit("u_imaginary_ross_bot")
     submission = output_subreddit.submit_image("happy little test",
                                                tmp_image_path, timeout=120)
-    submission.reply("Original submission: [{}]({}) by /u/{}".format(
+    submission.reply("Original submission: [{}]({})".format(
                      landscape_submission.title,
-                     landscape_submission.shortlink,
-                     landscape_submission.author.name))
+                     landscape_submission.shortlink))
     history.append(new_url)
     save_history(history)
 
